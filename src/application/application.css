@@ -1,0 +1,18 @@
+.root {
+    -fx-font-size: 10pt;
+    -fx-base: "1A1A1A";
+    -fx-background: "#696969";
+    -fx-text-fill: "#D6D4D6"; 
+}
+
+.list-cell, .text-field {
+	-fx-text-fill: "#F5F5F5"; 
+}
+
+#quitButton {
+	-fx-background-color: "#A82525";
+}
+
+#topBar {
+	-fx-background-color: "#4D4D4D";
+}
