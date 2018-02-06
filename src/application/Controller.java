@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.ResourceBundle;
@@ -20,11 +21,12 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -33,6 +35,8 @@ import javafx.stage.Stage;
 public class Controller implements Initializable {
 	
 //FXML Objects
+	
+	private BorderPane mainPane;
 	
 	//Main Data View
 	@FXML private ListView<Song> listView;
@@ -77,9 +81,6 @@ public class Controller implements Initializable {
 	//name of the file in which data is saved/loaded from
 	private String dataFilename = "data.txt";
 	
-	//Persistent Comparator Object to Maintain Alphabetized Songs
-	private SongSorter sorter;
-	
 	//The observable list in which all of our song data is stored
 	private ObservableList<Song> data;
 	
@@ -89,14 +90,12 @@ public class Controller implements Initializable {
 	
 //Methods
 	
-	@FXML private Tooltip testTooltip;
-	
 	//Initialize called automatically when controller created
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		sorter = new SongSorter();
 		data = FXCollections.observableArrayList();
-
+		
 		load();
 		
 		//Set up listener for changing song selection to update sidebar
@@ -154,7 +153,9 @@ public class Controller implements Initializable {
 	}
 	
 	//Alphabetically sorts song data
-	public void sort() {data.sort(sorter);}
+	public void sort() {
+		Collections.sort(data, (a,b) -> a.compareTo(b));
+		}
 
 	//Utility method that allows the window to be dragged by the top bar
 	public void allowWindowDrag(Stage stage) {
@@ -206,6 +207,8 @@ public class Controller implements Initializable {
 		 * change to fieldsView
 		 * make sure fields are empty
 		 */
+		
+//		mainPane.setCenter(/* other fxml goes here? */)
 		newButtonsView();
 		fieldsView();
 		resetFields();
@@ -308,8 +311,7 @@ public class Controller implements Initializable {
 		boolean valid = true;
 		
 		if (titleEmpty()) {
-			//TODO Prompt title required
-//			testTooltip.show(titleField, 0, 0);
+			//TODO Prompt title required	
 			valid = false;
 		}
 		
@@ -468,6 +470,9 @@ public class Controller implements Initializable {
 			writer.write(obj.toJSONString());
 			writer.close();
 		}
+		catch (FileNotFoundException e) {
+			createDataFile();
+		}
 		catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -525,9 +530,3 @@ public class Controller implements Initializable {
 }
 
 
-// Comparator Class for Songs
-class SongSorter implements Comparator<Song> {
-	public int compare(Song a, Song b) {
-		return a.compareTo(b);
-	}
-}

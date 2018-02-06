@@ -1,7 +1,6 @@
 
 Bugs:
 	* Only the cancel button for the delete button group consumes VK_Esc
-	* need to handle FileNotFoundException when data.txt does not exist in save()
 
 
 Missing Features:
@@ -11,3 +10,6 @@ Missing Features:
 
 General To-Do:
 	*Need to completely go over the loading/saving mechanism--understand how these buffers work!
+	*Should implement different button menus as different scenes
+		*Maybe make the menu bars different fxml files and then place them within a borderpane
+		 where the current anchorpane is.
