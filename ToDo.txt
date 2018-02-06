@@ -1,0 +1,13 @@
+
+Bugs:
+	* Only the cancel button for the delete button group consumes VK_Esc
+	* need to handle FileNotFoundException when data.txt does not exist in save()
+
+
+Missing Features:
+	* Make window resizeable
+	* Need error prompts
+	
+
+General To-Do:
+	*Need to completely go over the loading/saving mechanism--understand how these buffers work!

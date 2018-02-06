@@ -1,5 +1,7 @@
 package application;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -21,6 +23,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -86,6 +89,8 @@ public class Controller implements Initializable {
 	
 //Methods
 	
+	@FXML private Tooltip testTooltip;
+	
 	//Initialize called automatically when controller created
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -93,13 +98,6 @@ public class Controller implements Initializable {
 		data = FXCollections.observableArrayList();
 
 		load();
-		
-//		data = FXCollections.observableArrayList(
-//		new Song("Bravo", "The Guy", "Album 1", "2018"),
-//		new Song("Delta", "The Guy", "Album 1", "2018"),
-//		new Song("Charlie", "The Guy", "Album 1", "2018"),
-//		new Song("Alpha", "The Guy", "Album 1", "2018"),
-//		new Song("Echo", "The Guy", "Album 1", "2018"));
 		
 		//Set up listener for changing song selection to update sidebar
 		listView.setItems(data);
@@ -110,14 +108,36 @@ public class Controller implements Initializable {
 		defaultButtonsView();
 		labelView();
 		
-		listView.getSelectionModel().select(0);
+		//Select first entry by default if it exists
+		if (data.size() != 0) {
+			listView.getSelectionModel().select(0);
+		}	
+		
+		refreshSidebar();
 	}
 	
 	public void refreshSidebar() {
 		//get currently selected song
 		Song song = getSelectedSong();
 		
-		if (song == null) return;
+		if (data.size() == 0) {
+			editButton.setDisable(true);
+			deleteButton.setDisable(true);
+		}
+		else {
+			editButton.setDisable(false);
+			deleteButton.setDisable(false);
+		}
+		
+		//if no song selected, then set labels to null and return
+		//this will usually happen if the last song in the library is deleted
+		if (song == null) {
+			titleLabel.setText("");
+			artistLabel.setText("");
+			albumLabel.setText("");
+			yearLabel.setText("");
+			return;
+		}
 		
 		//fill in sidebar
 		titleLabel.setText(song.getTitle());
@@ -289,6 +309,7 @@ public class Controller implements Initializable {
 		
 		if (titleEmpty()) {
 			//TODO Prompt title required
+//			testTooltip.show(titleField, 0, 0);
 			valid = false;
 		}
 		
@@ -464,6 +485,8 @@ public class Controller implements Initializable {
 	private void load() {
 		JSONParser parser = new JSONParser();
 		
+		
+		
 		try {
 			JSONObject obj = (JSONObject) parser.parse(new FileReader(dataFilename));
 			JSONArray songs = (JSONArray) obj.get("songs");
@@ -477,10 +500,25 @@ public class Controller implements Initializable {
 				data.add(new Song(title, artist, album, year));
 			}
 		}
+		catch (FileNotFoundException e) {
+			//display welcome message?
+			createDataFile();
+		}
 		catch (IOException e) {
+			System.out.println("IOException");
 			e.printStackTrace();
 		}
 		catch (ParseException e) {
+			System.out.println("ParseException");
+			e.printStackTrace();
+		}
+	}
+	
+	private void createDataFile() {
+		try {
+			new File(dataFilename).createNewFile();
+		} 
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

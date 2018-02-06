@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -27,7 +28,7 @@
                <children>
                   <Label text="Details:">
                      <VBox.margin>
-                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                        <Insets bottom="20.0" left="30.0" right="20.0" top="20.0" />
                      </VBox.margin>
                   </Label>
                   <GridPane prefHeight="120.0">
@@ -97,7 +98,10 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <TextField fx:id="titleField" />
+                              <TextField fx:id="titleField">
+                                 <tooltip>
+                                    <Tooltip fx:id="testTooltip" text="Test Tooltip" />
+                                 </tooltip></TextField>
                               <TextField fx:id="artistField" GridPane.rowIndex="1" />
                               <TextField fx:id="albumField" GridPane.rowIndex="2" />
                               <TextField fx:id="yearField" GridPane.rowIndex="3" />
@@ -131,12 +135,12 @@
                         </HBox>
                         <HBox fx:id="editButtons" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Button fx:id="confirmEditButton" mnemonicParsing="false" onAction="#confirmEditPress" text="Confirm">
+                              <Button fx:id="confirmEditButton" defaultButton="true" mnemonicParsing="false" onAction="#confirmEditPress" text="Confirm">
                                  <HBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
                               </Button>
-                              <Button fx:id="cancelEditButton" mnemonicParsing="false" onAction="#cancelEditPress" text="Cancel">
+                              <Button fx:id="cancelEditButton" cancelButton="true" mnemonicParsing="false" onAction="#cancelEditPress" text="Cancel">
                                  <HBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
@@ -145,12 +149,12 @@
                         </HBox>
                         <HBox fx:id="newButtons" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Button fx:id="addButton" mnemonicParsing="false" onAction="#addPress" text="Add">
+                              <Button fx:id="addButton" defaultButton="true" mnemonicParsing="false" onAction="#addPress" text="Add">
                                  <HBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
                               </Button>
-                              <Button fx:id="cancelAddButton" mnemonicParsing="false" onAction="#cancelAddPress" text="Cancel">
+                              <Button fx:id="cancelAddButton" cancelButton="true" mnemonicParsing="false" onAction="#cancelAddPress" text="Cancel">
                                  <HBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
@@ -159,12 +163,12 @@
                         </HBox>
                         <HBox fx:id="deleteButtons" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Button fx:id="confirmDeleteButton" mnemonicParsing="false" onAction="#confirmDeletePress" text="Confirm">
+                              <Button fx:id="confirmDeleteButton" defaultButton="true" mnemonicParsing="false" onAction="#confirmDeletePress" text="Confirm">
                                  <HBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
                               </Button>
-                              <Button fx:id="cancelDeleteButton" mnemonicParsing="false" onAction="#cancelDeletePress" text="Cancel">
+                              <Button fx:id="cancelDeleteButton" cancelButton="true" mnemonicParsing="false" onAction="#cancelDeletePress" text="Cancel">
                                  <HBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>

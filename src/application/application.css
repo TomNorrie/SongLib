@@ -1,18 +1,28 @@
 .root {
     -fx-font-size: 10pt;
-    -fx-base: "1A1A1A";
-    -fx-background: "#696969";
-    -fx-text-fill: "#D6D4D6"; 
+    -fx-base: Black;
+    -fx-background: DimGray;
+    -fx-text-fill: FloralWhite; 
+    -fx-focus-color: DarkOrange;
+}
+
+.button {
+	-fx-focus-color: transparent;
+	-fx-default-button: DarkORange;
 }
 
 .list-cell, .text-field {
-	-fx-text-fill: "#F5F5F5"; 
+	-fx-text-fill: FloralWhite; 
+}
+
+:selected {
+	-fx-background-color:rgb(62,62,62);
 }
 
 #quitButton {
-	-fx-background-color: "#A82525";
+	-fx-background-color: DarkRed;
 }
 
 #topBar {
-	-fx-background-color: "#4D4D4D";
+	-fx-background-color: Black;
 }
