@@ -77,6 +77,8 @@ public class Controller implements Initializable {
 	@FXML private Button addButton;
 	@FXML private Button cancelAddButton;
 	
+	//More stuff
+	
 //Instance Variables
 	
 	//name of the file in which data is saved/loaded from
@@ -94,6 +96,10 @@ public class Controller implements Initializable {
 	//Initialize called automatically when controller created
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		//do nothing!
+	}
+	
+	public void start() {
 		data = FXCollections.observableArrayList();
 		
 		load();
@@ -109,8 +115,10 @@ public class Controller implements Initializable {
 		if (data.size() != 0) {
 			listView.getSelectionModel().select(0);
 		}
-	
+		
+		initializeButtonPanes();
 		refreshSidebar();
+		
 	}
 	
 	public void refreshSidebar() {
@@ -142,12 +150,15 @@ public class Controller implements Initializable {
 		albumLabel.setText(song.getAlbum());
 		yearLabel.setText(song.getYear());
 		
-		if (!newButtons.isVisible()) {
-			titleField.setText(song.getTitle());
-			artistField.setText(song.getArtist());
-			albumField.setText(song.getAlbum());
-			yearField.setText(song.getYear());
+		if (!(newButtons == null)) {
+			if (!newButtons.isVisible()) {
+				titleField.setText(song.getTitle());
+				artistField.setText(song.getArtist());
+				albumField.setText(song.getAlbum());
+				yearField.setText(song.getYear());
+			}
 		}
+		
 	}
 	
 	//Alphabetically sorts song data
@@ -188,7 +199,6 @@ public class Controller implements Initializable {
 			return (AnchorPane) loader.load();
 		} catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -200,74 +210,36 @@ public class Controller implements Initializable {
 	
 	public void defaultButtonsView() {
 		swapView(defaultButtonsPane);
-//		defaultButtons.setVisible(true);
-//		editButtons.setVisible(false);
-//		newButtons.setVisible(false);
-//		deleteButtons.setVisible(false);
 	}
 
 	public void editButtonsView() {
 		swapView(editButtonsPane);
-//		defaultButtons.setVisible(false);
-//		editButtons.setVisible(true);
-//		newButtons.setVisible(false);
-//		deleteButtons.setVisible(false);
 	}
 
 	public void newButtonsView() {
 		swapView(newButtonsPane);
-//		defaultButtons.setVisible(false);
-//		editButtons.setVisible(false);
-//		newButtons.setVisible(true);
-//		deleteButtons.setVisible(false);
 	}
 
 	public void deleteButtonsView() {
 		swapView(deleteButtonsPane);
-//		defaultButtons.setVisible(false);
-//		editButtons.setVisible(false);
-//		newButtons.setVisible(false);
-//		deleteButtons.setVisible(true);
 	}
 	
 	//Button Methods
 		
 	public void newPress() {
-		/*
-		 * change button view to newButtonsView
-		 * change to fieldsView
-		 * make sure fields are empty
-		 */
-		
 		newButtonsView();
 		fieldsView();
 		resetFields();
 	}
 	
 	public void editPress() {
-		/*
-		 * change button view to editButtonsView
-		 * change to fieldsView
-		 * fields should already be correct, but maybe refreshSidebar() for good measure.
-		 */
 		editButtonsView();
 		fieldsView();
 		refreshSidebar();
 	}
 	
 	public void deletePress() {
-		/*
-		 * if nothing selected (then list is probably empty), do nothing
-		 * otherwise, change to deleteButtonsView
-		 * display confirmation prompt 
-		 */
-		if (data.size() == 0) {
-			//TODO Prompt delete invalid in empty list
-		}
-		else {
-			deleteButtonsView();
-			//TODO Prompt delete confirmation.
-		}
+		deleteButtonsView();
 	}
 	
 	public void confirmEditPress() {
@@ -285,12 +257,12 @@ public class Controller implements Initializable {
 		boolean valid = true;
 		
 		if (titleEmpty()) {
-			//TODO Prompt title required
+			titleField.setPromptText("Title Required.");
 			valid = false;
 		}
 		
 		if (artistEmpty()) {
-			//TODO Prompt artist required
+			artistField.setPromptText("Artist Required.");
 			valid = false;
 		}
 		
@@ -312,6 +284,8 @@ public class Controller implements Initializable {
 			labelView();
 			sort();
 			refreshSidebar();
+			
+			clearPromptText();
 		}
 	}
 	
@@ -324,6 +298,8 @@ public class Controller implements Initializable {
 		defaultButtonsView();
 		labelView();
 		resetFields();
+		
+		clearPromptText();
 	}
 	
 	public void addPress() {
@@ -341,12 +317,12 @@ public class Controller implements Initializable {
 		boolean valid = true;
 		
 		if (titleEmpty()) {
-			//TODO Prompt title required	
+			titleField.setPromptText("Title Required.");
 			valid = false;
 		}
 		
 		if (artistEmpty()) {
-			//TODO Prompt artist required
+			artistField.setPromptText("Artist Required.");
 			valid = false;
 		}
 		
@@ -367,8 +343,15 @@ public class Controller implements Initializable {
 			labelView();
 			sort();
 			
+			clearPromptText();
+			
 			selectSong(newSong);
 		}
+	}
+	
+	private void clearPromptText() {
+		titleField.setPromptText("");
+		artistField.setPromptText("");
 	}
 	
 	public void cancelAddPress() {
@@ -380,6 +363,7 @@ public class Controller implements Initializable {
 		defaultButtonsView();
 		labelView();
 		resetFields();
+		clearPromptText();
 	}
 	
 	public void confirmDeletePress() {
@@ -519,9 +503,7 @@ public class Controller implements Initializable {
 	
 	private void load() {
 		JSONParser parser = new JSONParser();
-		
-		
-		
+	
 		try {
 			JSONObject obj = (JSONObject) parser.parse(new FileReader(dataFilename));
 			JSONArray songs = (JSONArray) obj.get("songs");
@@ -539,12 +521,12 @@ public class Controller implements Initializable {
 			//display welcome message?
 			createDataFile();
 		}
+		catch (ParseException e) {
+			System.out.println("Error reading song data from save file.");
+			return;
+		}
 		catch (IOException e) {
 			System.out.println("IOException");
-			e.printStackTrace();
-		}
-		catch (ParseException e) {
-			System.out.println("ParseException");
 			e.printStackTrace();
 		}
 	}

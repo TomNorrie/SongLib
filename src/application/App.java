@@ -24,9 +24,9 @@ public class App extends Application {
 		
 		primaryStage.setTitle("Song Library");
 		
-		Controller controller = loader.getController();		
+		Controller controller = loader.getController();
+		controller.start();
 		controller.allowWindowDrag(primaryStage);
-		controller.initializeButtonPanes();
 		
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);

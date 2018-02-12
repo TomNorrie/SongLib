@@ -4,12 +4,8 @@ Bugs:
 
 
 Missing Features:
-	* Make window resizeable
 	* Need error prompts
 	
 
 General To-Do:
-	*Need to completely go over the loading/saving mechanism--understand how these buffers work!
-	*Should implement different button menus as different scenes
-		*Maybe make the menu bars different fxml files and then place them within a borderpane
-		 where the current anchorpane is.
+	*
