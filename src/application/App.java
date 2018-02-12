@@ -26,6 +26,7 @@ public class App extends Application {
 		
 		Controller controller = loader.getController();		
 		controller.allowWindowDrag(primaryStage);
+		controller.initializeButtonPanes();
 		
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);

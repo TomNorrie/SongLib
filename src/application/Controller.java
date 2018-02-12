@@ -7,7 +7,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.ResourceBundle;
 
@@ -19,13 +18,15 @@ import org.json.simple.parser.ParseException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -36,7 +37,7 @@ public class Controller implements Initializable {
 	
 //FXML Objects
 	
-	private BorderPane mainPane;
+	@FXML private BorderPane menuSwatch;
 	
 	//Main Data View
 	@FXML private ListView<Song> listView;
@@ -93,7 +94,6 @@ public class Controller implements Initializable {
 	//Initialize called automatically when controller created
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		sorter = new SongSorter();
 		data = FXCollections.observableArrayList();
 		
 		load();
@@ -104,14 +104,12 @@ public class Controller implements Initializable {
 		listView.getSelectionModel().selectedItemProperty().addListener(
 				(data, oldVal, newVal) ->
 				refreshSidebar());
-		defaultButtonsView();
-		labelView();
-		
+	
 		//Select first entry by default if it exists
 		if (data.size() != 0) {
 			listView.getSelectionModel().select(0);
-		}	
-		
+		}
+	
 		refreshSidebar();
 	}
 	
@@ -171,32 +169,65 @@ public class Controller implements Initializable {
 	
 	//Button group visibility methods
 	
+	private AnchorPane defaultButtonsPane;
+	private AnchorPane editButtonsPane;
+	private AnchorPane newButtonsPane;
+	private AnchorPane deleteButtonsPane;
+	
+	public void initializeButtonPanes() {
+		defaultButtonsPane = loadButtonPane("/application/DefaultButtons.fxml");
+		editButtonsPane = loadButtonPane("/application/EditButtons.fxml");
+		newButtonsPane = loadButtonPane("/application/NewButtons.fxml");
+		deleteButtonsPane = loadButtonPane("/application/DeleteButtons.fxml");
+	}
+	
+	private AnchorPane loadButtonPane(String path) {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
+		loader.setController(this);
+		try {
+			return (AnchorPane) loader.load();
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	private void swapView(Node node) {
+		menuSwatch.setCenter(node);
+	}
+	
 	public void defaultButtonsView() {
-		defaultButtons.setVisible(true);
-		editButtons.setVisible(false);
-		newButtons.setVisible(false);
-		deleteButtons.setVisible(false);
+		swapView(defaultButtonsPane);
+//		defaultButtons.setVisible(true);
+//		editButtons.setVisible(false);
+//		newButtons.setVisible(false);
+//		deleteButtons.setVisible(false);
 	}
 
-		public void editButtonsView() {
-		defaultButtons.setVisible(false);
-		editButtons.setVisible(true);
-		newButtons.setVisible(false);
-		deleteButtons.setVisible(false);
+	public void editButtonsView() {
+		swapView(editButtonsPane);
+//		defaultButtons.setVisible(false);
+//		editButtons.setVisible(true);
+//		newButtons.setVisible(false);
+//		deleteButtons.setVisible(false);
 	}
 
-		public void newButtonsView() {
-		defaultButtons.setVisible(false);
-		editButtons.setVisible(false);
-		newButtons.setVisible(true);
-		deleteButtons.setVisible(false);
+	public void newButtonsView() {
+		swapView(newButtonsPane);
+//		defaultButtons.setVisible(false);
+//		editButtons.setVisible(false);
+//		newButtons.setVisible(true);
+//		deleteButtons.setVisible(false);
 	}
 
-		public void deleteButtonsView() {
-		defaultButtons.setVisible(false);
-		editButtons.setVisible(false);
-		newButtons.setVisible(false);
-		deleteButtons.setVisible(true);
+	public void deleteButtonsView() {
+		swapView(deleteButtonsPane);
+//		defaultButtons.setVisible(false);
+//		editButtons.setVisible(false);
+//		newButtons.setVisible(false);
+//		deleteButtons.setVisible(true);
 	}
 	
 	//Button Methods
@@ -208,7 +239,6 @@ public class Controller implements Initializable {
 		 * make sure fields are empty
 		 */
 		
-//		mainPane.setCenter(/* other fxml goes here? */)
 		newButtonsView();
 		fieldsView();
 		resetFields();
