@@ -21,6 +21,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -268,7 +270,7 @@ public class Controller implements Initializable {
 		
 		if (titleArtistChanged()) {
 			if (isDuplicate()) {
-				//TODO Prompt duplicates forbidden
+				duplicationError();
 				valid = false;
 			}
 		}
@@ -327,7 +329,7 @@ public class Controller implements Initializable {
 		}
 		
 		if (isDuplicate()) {
-			//TODO Prompt duplicated forbidden
+			duplicationError();
 			valid = false;
 		}
 		
@@ -466,9 +468,17 @@ public class Controller implements Initializable {
 		yearField.setText("");
 	}
 	
-// Save/Load Data Methods
+// Duplication Error Message
 	
-	//should do this with JSON.
+	private void duplicationError() {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.initOwner(topBar.getScene().getWindow());
+		alert.setTitle("Error");
+		alert.setHeaderText("Duplicate entries are not allowed.");
+		alert.showAndWait();
+	}
+	
+// Save/Load Data Methods
 	
 	private void save() {
 		JSONArray songs = new JSONArray();
@@ -518,7 +528,6 @@ public class Controller implements Initializable {
 			}
 		}
 		catch (FileNotFoundException e) {
-			//display welcome message?
 			createDataFile();
 		}
 		catch (ParseException e) {

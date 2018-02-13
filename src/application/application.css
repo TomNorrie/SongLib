@@ -8,7 +8,7 @@
 
 .button {
 	-fx-focus-color: transparent;
-	-fx-default-button: DarkORange;
+	-fx-default-button: DarkOrange;
 }
 
 .list-cell, .text-field {
