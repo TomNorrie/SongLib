@@ -335,10 +335,10 @@ public class Controller implements Initializable {
 		
 		if (valid) {
 			Song newSong = new Song(
-					titleField.getText(),
-					artistField.getText(),
-					albumField.getText(),
-					yearField.getText());
+					titleField.getText().trim(),
+					artistField.getText().trim(),
+					albumField.getText().trim(),
+					yearField.getText().trim());
 			data.add(newSong);
 			
 			defaultButtonsView();
