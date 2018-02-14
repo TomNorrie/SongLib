@@ -15,7 +15,7 @@
 
 <!-- stylesheets="@application.css" -->
 
-<BorderPane fx:id="wrapperPane" prefHeight="262.0" prefWidth="510.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
+<BorderPane stylesheets="@application.css" fx:id="wrapperPane" prefHeight="262.0" prefWidth="510.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
    <center>
       <BorderPane fx:id="mainPane" BorderPane.alignment="CENTER">
          <center>
@@ -152,7 +152,7 @@
         </rowConstraints>
          <children>
             <Label text="SongLib v0.1" />
-            <Button fx:id="quitButton" alignment="CENTER" maxHeight="20.0" maxWidth="20.0" minHeight="20.0" minWidth="20.0" mnemonicParsing="false" onAction="#quitPress" text="x" textAlignment="CENTER" GridPane.columnIndex="1">
+            <Button fx:id="quitButton" alignment="CENTER" maxHeight="20.0" maxWidth="20.0" minHeight="20.0" minWidth="20.0" mnemonicParsing="false" onAction="#quitPress" text="❌" textAlignment="CENTER" GridPane.columnIndex="1">
                <padding>
                   <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
                </padding></Button>

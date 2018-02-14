@@ -153,7 +153,7 @@ public class Controller implements Initializable {
 		yearLabel.setText(song.getYear());
 		
 		if (!(newButtons == null)) {
-			if (!newButtons.isVisible()) {
+			if (!(menuSwatch.getCenter() == newButtonsPane)) {
 				titleField.setText(song.getTitle());
 				artistField.setText(song.getArtist());
 				albumField.setText(song.getAlbum());

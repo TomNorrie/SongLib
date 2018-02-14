@@ -1,8 +1,8 @@
 .root {
     -fx-font-size: 10pt;
     -fx-base: Black;
-    -fx-background: DimGray;
-    -fx-text-fill: FloralWhite; 
+    -fx-background:rgb(50,47,45);
+    -fx-text-fill: FloralWhite;
     -fx-focus-color: DarkOrange;
 }
 
@@ -11,8 +11,26 @@
 	-fx-default-button: DarkOrange;
 }
 
+.list-view, .list-cell:even {
+	-fx-background-color: rgb(64,64,64);
+}
+
+.list-view, .list-cell:odd {
+	-fx-background-color: rgb(60,60,60);
+}
+
+.list-cell:selected {
+	-fx-background-color: rgb(92,92,92);
+	-fx-border-color: rgb(40,40,40);
+}
+
 .list-cell, .text-field {
 	-fx-text-fill: FloralWhite; 
+	-fx-prompt-text-fill:LightSalmon;
+}
+
+.text-field {
+	-fx-control-inner-background:rgb(70,67,65);
 }
 
 :selected {
@@ -23,6 +41,11 @@
 	-fx-background-color: DarkRed;
 }
 
+#quitButton:hover {
+	-fx-background-color: Red;
+}
+
 #topBar {
 	-fx-background-color: Black;
 }
+
